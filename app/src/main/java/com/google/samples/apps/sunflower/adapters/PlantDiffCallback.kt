@@ -16,7 +16,7 @@
 
 package com.google.samples.apps.sunflower.adapters
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.google.samples.apps.sunflower.data.Plant
 
 class PlantDiffCallback : DiffUtil.ItemCallback<Plant>() {
@@ -28,5 +28,4 @@ class PlantDiffCallback : DiffUtil.ItemCallback<Plant>() {
     override fun areContentsTheSame(oldItem: Plant, newItem: Plant): Boolean {
         return oldItem == newItem
     }
-
 }

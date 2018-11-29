@@ -16,76 +16,52 @@
 
 package com.google.samples.apps.sunflower
 
-import android.content.res.Configuration
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.samples.apps.sunflower.databinding.ActivityGardenBinding
 
 class GardenActivity : AppCompatActivity() {
 
-    private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(
-            DataBindingUtil.setContentView<ActivityGardenBinding>(
-                this,
-                R.layout.activity_garden
-            )
-        ) {
-            setupToolbar(this)
-            setupNavigationDrawer(this)
-        }
-    }
 
-    private fun setupToolbar(binding: ActivityGardenBinding) {
+        val binding: ActivityGardenBinding = DataBindingUtil.setContentView(this,
+                R.layout.activity_garden)
+        drawerLayout = binding.drawerLayout
+
+        navController = Navigation.findNavController(this, R.id.garden_nav_fragment)
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+
+        // Set up ActionBar
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeButtonEnabled(true)
-        }
-    }
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
-    private fun setupNavigationDrawer(binding: ActivityGardenBinding) {
-        drawerToggle = ActionBarDrawerToggle(
-            this, binding.drawerLayout, R.string.drawer_open, R.string.drawer_close
-        ).also {
-            binding.drawerLayout.addDrawerListener(it)
-            it.isDrawerSlideAnimationEnabled = false
-            binding.drawerLayout.addDrawerListener(it)
-        }
-
-        val navController = Navigation.findNavController(this, R.id.garden_nav_fragment)
+        // Set up navigation menu
         binding.navigationView.setupWithNavController(navController)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // The action bar home/up action should open or close the drawer.
-        // [ActionBarDrawerToggle] will take care of this.
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
         }
-        return super.onOptionsItemSelected(item)
-    }
-
-    /**
-     * If [ActionBarDrawerToggle] is used, it must be called in [onPostCreate] and
-     * [onConfigurationChanged].
-     */
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after has occurred.
-        drawerToggle.syncState()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        // Pass any configuration change to the drawer toggle.
-        drawerToggle.onConfigurationChanged(newConfig)
     }
 }

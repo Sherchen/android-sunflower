@@ -7,6 +7,9 @@ A gardening app illustrating Android development best practices with Android Jet
 Android Sunflower is currently released as an alpha and is under heavy development. To view the
 latest changes, please visit the
 [Releases page](https://github.com/googlesamples/android-sunflower/releases).
+Note that some changes (such as database schema modifications) are not backwards
+compatible during this alpha period and may cause the app to crash. In this
+case, please uninstall and re-install the app.
 
 Introduction
 ------------
@@ -18,6 +21,9 @@ categories:
 ![Android Jetpack](screenshots/jetpack_donut.png "Android Jetpack Components")
 
 Android Sunflower demonstrates utilizing these components to create a simple gardening app.
+Read the
+[Introducing Android Sunflower](https://medium.com/androiddevelopers/introducing-android-sunflower-e421b43fe0c2)
+article for a walkthrough of the app.
 
 Getting Started
 ---------------
@@ -54,10 +60,12 @@ Libraries Used
      asynchronous tasks for optimal execution.
   * [WorkManager][18] - Manage your Android background jobs.
 * [UI][30] - Details on why and how to use UI Components in your apps - together or separate
+  * [Animations & Transitions][31] - Move widgets and transition between screens.
   * [Fragment][34] - A basic unit of composable UI.
   * [Layout][35] - Lay out widgets using different algorithms.
 * Third party
   * [Glide][90] for image loading
+  * [Kotlin Coroutines][91] for managing background threads with simplified code and reducing needs for callbacks
 
 [0]: https://developer.android.com/jetpack/foundation/
 [1]: https://developer.android.com/topic/libraries/support-library/packages#v7-appcompat
@@ -72,9 +80,11 @@ Libraries Used
 [17]: https://developer.android.com/topic/libraries/architecture/viewmodel
 [18]: https://developer.android.com/topic/libraries/architecture/workmanager
 [30]: https://developer.android.com/jetpack/ui/
+[31]: https://developer.android.com/training/animation/
 [34]: https://developer.android.com/guide/components/fragments
 [35]: https://developer.android.com/guide/topics/ui/declaring-layout
 [90]: https://bumptech.github.io/glide/
+[91]: https://kotlinlang.org/docs/reference/coroutines-overview.html
 
 Upcoming features
 -----------------
@@ -83,6 +93,42 @@ as the component libraries evolve.
 
 Interested in seeing a particular feature of the Android Framework or Jetpack implemented in this
 app? Please open a new [issue](https://github.com/googlesamples/android-sunflower/issues).
+
+Android Studio IDE setup
+------------------------
+For development, the latest version of Android Studio 3.2 is required. The latest version can be
+downloaded from [here](https://developer.android.com/studio/).
+
+Sunflower uses [ktlint](https://ktlint.github.io/) to enforce Kotlin coding styles.
+Here's how to configure it for use with Android Studio (instructions adapted
+from the ktlint [README](https://github.com/shyiko/ktlint/blob/master/README.md)):
+
+- Close Android Studio if it's open
+
+- Download ktlint using these [installation instructions](https://github.com/shyiko/ktlint/blob/master/README.md#installation).
+
+- Inside the project root directory run:
+
+  `ktlint --apply-to-idea-project --android`
+
+- Start Android Studio
+
+Additional resources
+--------------------
+Check out the
+[Additional Resources Wiki page](https://github.com/googlesamples/android-sunflower/wiki/Sunflower-additional-resources)
+to learn more about Android Sunflower.
+
+Non-Goals
+---------
+The focus of this project is on Android Jetpack and the Android framework.
+Thus, there are no immediate plans to implement features outside of this scope.
+
+A note on dependency injection - while many projects (such as
+[Plaid](https://github.com/nickbutcher/plaid)) use
+[Dagger 2](https://github.com/google/dagger) for DI, there are no plans to
+incorporate DI into Sunflower.  This allows developers unfamiliar with dependency
+injection to better understand Sunflower's code without having to learn DI.
 
 Support
 -------

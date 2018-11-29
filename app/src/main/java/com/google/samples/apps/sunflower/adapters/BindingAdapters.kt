@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.sunflower.utilities
+package com.google.samples.apps.sunflower.adapters
 
-import java.util.concurrent.Executors
+import android.view.View
+import androidx.databinding.BindingAdapter
 
-private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
-
-/**
- * Utility method to run blocks on a dedicated background thread, used for io/database work.
- */
-fun runOnIoThread(f : () -> Unit) {
-    IO_EXECUTOR.execute(f)
+@BindingAdapter("isGone")
+fun bindIsGone(view: View, isGone: Boolean) {
+    view.visibility = if (isGone) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
 }
